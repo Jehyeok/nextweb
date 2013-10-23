@@ -48,7 +48,6 @@ public class BoardController {
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	@RequestMapping(value = "/modify/{id}")
