@@ -26,7 +26,7 @@ public class BoardController {
 	public String form() {
 		return "form";
 	}
-
+	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String create(Board board, MultipartFile file, HttpSession session) {
 		try {

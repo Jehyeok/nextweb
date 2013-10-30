@@ -41,6 +41,6 @@ public class CommentController {
 			e.getMessage();
 			e.getStackTrace();
 		}
-		return "redirect:/board/" + id;
+		return "redirect:/board/list";
 	}
 }
