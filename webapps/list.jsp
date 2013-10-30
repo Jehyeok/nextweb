@@ -93,13 +93,6 @@
 				// 기존 페이지에 스크롤이 되지 않도록 한다. 
 				this.body.style.overflow = 'hidden';
 			},
-			toggleComments : function(e) {
-				// 클릭한 게시글의 코맨트 div를 받아온다. 
-				var clickedComments = e.target.parentNode.parentNode.children[3];
-				// 코멘트가 보인다면 안보이도록, 안보인다면 보이도록 한다. 
-				if (clickedComments.style.display == 'block') clickedComments.style.display = 'none';
-				else clickedComments.style.display = 'block';
-			},
 			imgInit : function() {
 				imgDivs = document.querySelectorAll('img');
 				for ( var i = 0; i < imgDivs.length; i++) {
@@ -107,14 +100,6 @@
 					imgDivs[i].style.maxWidth = '750px';
 					// 이미지를 클릭하면 새로운 레이어에 이미지를 띄우도록 이벤트를 등록한다. 
 					imgDivs[i].addEventListener('click', this.showNewLayer.bind(this), false);
-				}
-			},
-			commentToggleBtnInit : function() {
-				// 커멘트들의 visibility를 toggle하는 버튼을 받아온다. 
-				var commentBtn = document.querySelectorAll('.commentVisible a');
-				for ( var i = 0; i < commentBtn.length; i++) {
-					// toggle하는 이벤트를 각각의 버튼에 등록한다. 
-					commentBtn[i].addEventListener('click', this.toggleComments, false);
 				}
 			},
 			preventATagScrollInit : function() {
@@ -131,13 +116,34 @@
 				// 이미지 max width 설정 && 클릭하면 새로운 레이어 띄우는 이벤트 등록 
 				this.imgInit();
 				// comments visibility 버튼 등록
-				this.commentToggleBtnInit();
 				// a tag 기본 스크롤 이벤트 삭제
 				this.preventATagScrollInit();
 				this.blackCover.addEventListener('click', this.hideNewLayer.bind(this), false);
 				this.newImageLayer.addEventListener('click', this.stopBubbling);
 			}
 	}
+	
+	Comment = {
+		toggleComments : function(e) {
+			// 클릭한 게시글의 코맨트 div를 받아온다. 
+			var clickedComments = e.target.parentNode.parentNode.children[3];
+			// 코멘트가 보인다면 안보이도록, 안보인다면 보이도록 한다. 
+			if (clickedComments.style.display == 'block') clickedComments.style.display = 'none';
+			else clickedComments.style.display = 'block';
+		},
+		commentToggleBtnInit : function() {
+			// 커멘트들의 visibility를 toggle하는 버튼을 받아온다. 
+			var commentBtn = document.querySelectorAll('.commentVisible a');
+			for ( var i = 0; i < commentBtn.length; i++) {
+				// toggle하는 이벤트를 각각의 버튼에 등록한다. 
+				commentBtn[i].addEventListener('click', this.toggleComments, false);
+			}
+		},
+		init : function() {
+			this.commentToggleBtnInit();
+		}
+	}
 	Board.init();
+	Comment.init();
 </script>
 </html>
