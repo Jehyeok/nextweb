@@ -64,6 +64,14 @@
 	</div>
 </body>
 <script>
+	function getCss(node, attr) {
+		return node.style[attr];
+	}
+	
+	function setCss(node, attr, value) {
+		node.style[attr] = value;
+	}
+	
 	var Board = {
 			// 이미지를 눌렀을 때 새로 뜨는 레이어 
 			blackCover : document.querySelector('#blackCover'),
@@ -75,29 +83,29 @@
 				e.stopPropagation();
 			},
 			hideNewLayer : function(e) {
-				this.blackCover.style.display = 'none';
-				this.body.style.overflow = 'scroll';
+				setCss(this.blackCover, 'display', 'none');
+				setCss(this.body, 'overflow', 'scroll');
 			},
 			showNewLayer : function(e) {
-				// 새롭게 뜨는 레이어로 전체 화면을 덮도록, width, height를 정한다. 
-				this.blackCover.style.width = window.innerWidth;
-				this.blackCover.style.height = window.innerHeight;
+				// 새롭게 뜨는 레이어로 전체 화면을 덮도록, width, height를 정한다.
+				setCss(this.blackCover, 'width', window.innerWidth);
+				setCss(this.blackCover, 'height', window.innerHeight);
 				
 				// 새로운 레이어에 뜨는 이미지의 크기를 기존 크기와 같게 정한다. 
-				this.newImageLayer.style.width = e.target.clientWidth;
-				this.newImageLayer.style.height = e.target.clientHeight;
-				// 이미지를 새로운 이미지 레이어의 배경으로 추가한다. 
-				this.newImageLayer.style.backgroundImage = 'url('+e.target.src+')';
-				// 'none'이었던 디스플레이 속성을 'block'으로 바꾼다. 
-				this.blackCover.style.display = 'block';
+				setCss(this.newImageLayer, 'width', e.target.clientWidth);
+				setCss(this.newImageLayer, 'height', e.target.clientHeight);
+				// 이미지를 새로운 이미지 레이어의 배경으로 추가한다.
+				setCss(this.newImageLayer, 'backgroundImage', 'url('+ e.target.src +')');
+				// 'none'이었던 디스플레이 속성을 'block'으로 바꾼다.
+				setCss(this.blackCover, 'display', 'block');
 				// 기존 페이지에 스크롤이 되지 않도록 한다. 
-				this.body.style.overflow = 'hidden';
+				setCss(this.body, 'overflow', 'hidden');
 			},
 			imgInit : function() {
 				imgDivs = document.querySelectorAll('img');
 				for ( var i = 0; i < imgDivs.length; i++) {
 					// 이미지의 maxWidth를 750px로 정한다. 
-					imgDivs[i].style.maxWidth = '750px';
+					setCss(imgDivs[i], 'maxWidth', '750px');
 					// 이미지를 클릭하면 새로운 레이어에 이미지를 띄우도록 이벤트를 등록한다. 
 					imgDivs[i].addEventListener('click', this.showNewLayer.bind(this), false);
 				}
@@ -128,8 +136,8 @@
 			// 클릭한 게시글의 코맨트 div를 받아온다. 
 			var clickedComments = e.target.parentNode.parentNode.children[3];
 			// 코멘트가 보인다면 안보이도록, 안보인다면 보이도록 한다. 
-			if (clickedComments.style.display == 'block') clickedComments.style.display = 'none';
-			else clickedComments.style.display = 'block';
+			if (getCss(clickedComments, 'display') == 'block') setCss(clickedComments, 'display', 'none');
+			else setCss(clickedComments, 'display', 'block');
 		},
 		commentToggleBtnInit : function() {
 			// 커멘트들의 visibility를 toggle하는 버튼을 받아온다. 
