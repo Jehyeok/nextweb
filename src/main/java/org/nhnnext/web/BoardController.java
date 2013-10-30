@@ -42,7 +42,7 @@ public class BoardController {
 			board.setUser(foundUser);
 			// board DB 에 게시글을 저장한다.
 			Board savedBoard = boardRepository.save(board);
-			return "redirect:/board/" + savedBoard.getId();
+			return "redirect:/board/list";
 		} catch (Exception e) {
 			e.getMessage();
 			e.printStackTrace();

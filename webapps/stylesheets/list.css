@@ -67,3 +67,27 @@ div#wrap {
 	margin-top: 20px;
 	padding: 5px;
 }
+
+.commentNum {
+	float: left;
+}
+
+.commentVisible {
+	float: right;
+}
+
+.comments {
+	clear: both;
+	display: none;
+}
+
+#blackCover {
+	background-color: rgba(0,0,0, 0.8);
+	z-index: 100;
+	top:0;
+	margin: 0 auto;
+}
+
+#newImageLayer {
+	margin: 50px auto;
+}
