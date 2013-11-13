@@ -5,14 +5,16 @@ import javax.servlet.http.HttpSession;
 import org.nhnnext.repository.BoardRepository;
 import org.nhnnext.repository.UserRepository;
 import org.nhnnext.support.FileUploader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -22,16 +24,46 @@ public class BoardController {
 	@Autowired
 	private UserRepository userRepository;
 	
+	private static final Logger log = LoggerFactory
+			.getLogger(BoardController.class);
+	
 	@RequestMapping("/form")
 	public String form() {
 		return "form";
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String create(Board board, MultipartFile file, HttpSession session) {
+	 public String create2(Board board, MultipartFile file, HttpSession session) {
+	     try {
+	       // 파일을 서버에 업로드 한다.
+	       String fileName = FileUploader.upload(file);
+	       // Board에 파일 이름을 넣는다. 
+	       board.setFileName(fileName);
+	       // 로그인한 유저의 userId를 받아온다. 
+	       String userId = (String)session.getAttribute("userId");
+	       // 받아온 userId로 User DB의 user를 찾는다. 
+	       User foundUser = userRepository.findByUserId(userId);
+	       // board에 user를 세팅한다. 세팅한 유저가 게시글을 업로드 한 것이다.
+	       board.setUser(foundUser);
+	       // board DB 에 게시글을 저장한다.
+	       Board savedBoard = boardRepository.save(board);
+	       return "redirect:/board/" + savedBoard.getId();
+	     } catch (Exception e) {
+	       e.getMessage();
+	       e.printStackTrace();
+	       return null;
+	     }
+	}
+	
+	@RequestMapping(value = "/post.json", method = RequestMethod.POST)
+	public @ResponseBody
+	Board create(Board board, MultipartFile file, HttpSession session) {
 		try {
+			// log.debug("board : {}", board) vs log.debug("board : " + board)
+			log.debug("board : {}", board);
 			// 파일을 서버에 업로드 한다.
 			String fileName = FileUploader.upload(file);
+			System.out.println(fileName);
 			// Board에 파일 이름을 넣는다. 
 			board.setFileName(fileName);
 			// 로그인한 유저의 userId를 받아온다. 
@@ -41,8 +73,9 @@ public class BoardController {
 			// board에 user를 세팅한다. 세팅한 유저가 게시글을 업로드 한 것이다.
 			board.setUser(foundUser);
 			// board DB 에 게시글을 저장한다.
-			Board savedBoard = boardRepository.save(board);
-			return "redirect:/board/list";
+//			Board savedBoard = boardRepository.save(board);
+//			return "redirect:/board/list";
+			return boardRepository.save(board);
 		} catch (Exception e) {
 			e.getMessage();
 			e.printStackTrace();

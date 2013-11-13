@@ -71,7 +71,7 @@ var Board = {
 	}
 }
 
-Comment = {
+var Comment = {
 	toggleComments : function(e) {
 		// 클릭한 게시글의 코맨트 div를 받아온다.
 		var clickedComments = e.target.parentNode.parentNode.children[3];
