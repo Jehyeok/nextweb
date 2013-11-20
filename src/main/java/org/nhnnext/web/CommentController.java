@@ -67,7 +67,7 @@ public class CommentController {
 		return "redirect:/board/list";
 	}
 	
-	@RequestMapping(value = "board/{id}/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "board/comment/{id}/delete", method = RequestMethod.POST)
 	public @ResponseBody
 	String delete(@PathVariable Long id) {
 		try {

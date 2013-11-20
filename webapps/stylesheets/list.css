@@ -44,9 +44,13 @@ div#wrap {
 }
 
 .imgDiv {
+	clear: both;
 	width: 750px;
 }
 
+.imgDiv img {
+	max-width: 750px;
+}
 .post {
 	border: 1px solid gray;
 	padding: 10px;
@@ -93,10 +97,22 @@ div#wrap {
 }
 
 #newImageLayer {
-	margin: 50px auto;
+	position: absolute;
+	margin: auto;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
 .commentDelete {
 	float: right;
 	clear: both;	
+}
+
+.post .title {
+	float: left;
+}
+.postDelete {
+	float: right;
 }

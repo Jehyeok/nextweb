@@ -135,4 +135,20 @@ public class BoardController {
 		model.addAttribute("boards", boardRepository.findAll());
 		return "list";
 	}
+	
+	@RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+	public @ResponseBody
+	String delete(@PathVariable Long id) {
+		try {
+			// TODO DB에서 id에 해당하는 Comment 데이터를 조회해야 한다.
+			Board foundBoard = boardRepository.findOne(id);
+			// Board의 데이터를 지운다.
+			boardRepository.delete(foundBoard);
+			return "성공";
+		} catch (Exception e) {
+			e.getMessage();
+			e.printStackTrace();
+			return "실패";
+		}
+	}
 }
